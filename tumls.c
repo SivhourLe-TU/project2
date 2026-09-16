@@ -68,7 +68,7 @@ int main (int argc, char *argv[]) {
 
     DIR *dir = opendir(argv[1]);
     if (dir == NULL) {
-        perror("tumls: open directory failed\n");
+        printf("tumls: open directory failed\n");
         return 1;
     }
     
@@ -78,7 +78,7 @@ int main (int argc, char *argv[]) {
 
     printf("Listing: current directory\n");
     if (list_directory(".") == -1) {
-        perror("tumls: open current directory failed\n");
+        printf("tumls: open current directory failed\n");
         return 1; // Error listing current directory
     }
 
