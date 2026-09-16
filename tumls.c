@@ -22,3 +22,21 @@ void mode_to_string(mode_t mode, char *out) {
     }
     out[9] = '\0'; // Null-terminate the string
 }    
+
+// Function to list files opened in the current directory
+static void print_entries(DIR *dir, const char *dirpath){
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL){
+        char fullpath[4096];
+        snprintf(fullpath, sizeof(fullpath), "%s/%s", dirpath, entry->d_name);
+        struct stat st;
+        if (stat(fullpath, &st) == -1) {
+            continue; // Skip if stat fails
+        }
+    
+        char perm[10];
+        mode_to_string(st.st_mode, perm);
+        printf("%s %s %ld %s\n", S_ISDIR(st.st_mode) ? "[DIR]" : "[FILE]", perm, 
+                                (long)st.st_size, entry->d_name);
+    }
+}
