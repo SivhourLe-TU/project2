@@ -46,7 +46,6 @@ static void print_entries(DIR *dir, const char *dirpath){
 static int list_directory(const char *dirpath) {
     DIR *dir = opendir(dirpath);
     if (dir == NULL) {
-        perror("opendir");
         return -1; // open failed
     }
     print_entries(dir, dirpath);
@@ -58,6 +57,7 @@ static int list_directory(const char *dirpath) {
 int main (int argc, char *argv[]) {
     if (argc < 2) {
         if (list_directory(".") == -1) {
+            printf("tumls: cannot open directory\n");
             return 1; // Error listing current directory
         }
         return 0;
@@ -68,7 +68,7 @@ int main (int argc, char *argv[]) {
 
     DIR *dir = opendir(argv[1]);
     if (dir == NULL) {
-        printf("tumls: open directory failed\n");
+        printf("tumls: cannot open directory\n");
         return 1;
     }
     
@@ -78,7 +78,7 @@ int main (int argc, char *argv[]) {
 
     printf("Listing: current directory\n");
     if (list_directory(".") == -1) {
-        printf("tumls: open current directory failed\n");
+        printf("tumls: cannot open directory\n");
         return 1; // Error listing current directory
     }
 
